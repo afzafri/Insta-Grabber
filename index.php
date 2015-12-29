@@ -27,15 +27,21 @@ if(isset($_GET['submit']))
 { 
 	$url = $_GET['url'];
 	
+	//get source code of the url/intagram photo page and store into var
 	$data = file_get_contents("$url");
+	
+	//strpos to get location for begin and end of JSON data. to use with substr
+	//Need to do this because we only need the JSON data not the whole source code
 	$begin = strpos($data, '<script type="text/javascript">window._sharedData =') + strlen('<script type="text/javascript">window._sharedData ='); 
 	$end   = strpos($data, ';</script>');
-
+	
+	//substr() function to get only JSON data from whole source code
 	$text = substr($data, $begin, ($end - $begin));
-
+	
+	//decode JSON and store into array var $jsonobj
 	$jsonobj = json_decode($text,true);
 	
-	//data
+	//data fetched from array that used to store decoded JSON
 	$img = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
 	$caption = $jsonobj['entry_data']['PostPage'][0]['media']['caption'];
 	$username = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['username'];
