@@ -1,6 +1,14 @@
-# Insta-Grabber
+# Insta Grabber - Unofficial Instagram API
+- Grab Instagram's post data from Instagram website, and return a JSON formatted strings.
+- Note: 
+  - This is not the official API, this is actually just a "hack", or workaround for obtaining the data. This might not last forever.
+  - Only work for public instagram accounts, cannot fetch data from a private account.
 
-Grab Instagram's post data.
+## Updates
+- 20/02/2017
+	- Created a separated page/file for demo.
+	- API (index.php) only scrape instagram post, and return a new JSON formatted strings.
+	- Check if data found, display message
 
 1. Created By : Afif Zafri
 2. Date : 29/12/2015
@@ -11,16 +19,9 @@ Grab Instagram's post data.
 Drop all files into your server
 
 ## Usage
-
-Enter Instagram post link inside the URL box and click Submit
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+- ```http://site.com/index.php?url=POSTURL```
+- where ```POSTURL``` is the instagram picture url.
+- It will then return a JSON formatted string, you can parse the JSON string and do what you want with it.
 
 ## Credits
 
@@ -28,5 +29,4 @@ Enter Instagram post link inside the URL box and click Submit
 2. Sensei : Mohd Shahril
 
 ## License
-
-Free to use and distribute
+This library is under ```MIT license```, please look at the LICENSE file
