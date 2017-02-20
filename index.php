@@ -32,11 +32,22 @@ if(isset($_GET['url']))
 	//initialized new associative array, for storing the data
 	//why not just return the scraped json? well as you can see above, the original json is wayyyy to deep
 	$jsondata = array();
+
+	//store data
+	$jsondata['user_id'] = $userid;
+	$jsondata['username'] = $username;
+	$jsondata['full_name'] = $full_name;
+	$jsondata['image_url'] = $img;
+	$jsondata['caption'] = $caption;
+	$jsondata['likes'] = $likes;
+	$jsondata['comments'] = $comments;
+	$jsondata['location'] = $location;
+	$jsondata['tagged_users'] = array();
 	
 	//loop array to get list of users_in_photo
 	for($i=0;$i<count($arrusersphoto);$i++)
 	{
-		$listuser = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
+		$jsondata['tagged_users'][] = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
 	}
 	
 
