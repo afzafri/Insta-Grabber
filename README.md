@@ -10,7 +10,8 @@
 	- API (index.php) only scrape instagram post, and return a new JSON formatted strings.
 	- Check if data found, display message
 
-1. Created By : Afif Zafri
+## Created By
+1. Afif Zafri
 2. Date : 29/12/2015
 3. Contact Me : http://fb.me/afzafri
 
