@@ -3,9 +3,17 @@
 if(isset($_GET['url']))
 { 
 	$url = $_GET['url'];
-	
-	//get source code of the url/intagram photo page and store into var
-	$data = file_get_contents("$url");
+
+	# use cURL instead of file_get_contents(), this is because on some server, file_get_contents() cannot be used
+    # cURL also have more options and customizable
+    $ch = curl_init(); # initialize curl object
+    curl_setopt($ch, CURLOPT_URL, $url); # set url
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); # receive server response
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); # do verify SSL
+    $data = curl_exec($ch); # execute curl, fetch webpage content
+    echo curl_error($ch);
+    $httpstatus = curl_getinfo($ch, CURLINFO_HTTP_CODE); # receive http response status
+    curl_close($ch);  # close curl
 	
 	//strpos to get location for begin and end of JSON data. to use with substr
 	//Need to do this because we only need the JSON data not the whole source code
