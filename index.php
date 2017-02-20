@@ -40,23 +40,29 @@ if(isset($_GET['url']))
 	//initialized new associative array, for storing the data
 	//why not just return the scraped json? well as you can see above, the original json is wayyyy to deep
 	$jsondata = array();
+	$jsondata['http_code'] = $httpstatus; # set http response code into the array
 
 	//store data
-	$jsondata['user_id'] = $userid;
-	$jsondata['username'] = $username;
-	$jsondata['full_name'] = $full_name;
-	$jsondata['image_url'] = $img;
-	$jsondata['caption'] = $caption;
-	$jsondata['likes'] = $likes;
-	$jsondata['comments'] = $comments;
-	$jsondata['location'] = $location;
-	$jsondata['tagged_users'] = array();
+	$jsondata['data']['user_id'] = $userid;
+	$jsondata['data']['username'] = $username;
+	$jsondata['data']['full_name'] = $full_name;
+	$jsondata['data']['image_url'] = $img;
+	$jsondata['data']['caption'] = $caption;
+	$jsondata['data']['likes'] = $likes;
+	$jsondata['data']['comments'] = $comments;
+	$jsondata['data']['location'] = $location;
+	$jsondata['data']['tagged_users'] = array();
 	
 	//loop array to get list of users_in_photo
 	for($i=0;$i<count($arrusersphoto);$i++)
 	{
-		$jsondata['tagged_users'][] = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
+		$jsondata['data']['tagged_users'][] = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
 	}
+
+	# project info
+    $jsondata['info']['creator'] = "Afif Zafri (afzafri)";
+    $jsondata['info']['project_page'] = "https://github.com/afzafri/Insta-Grabber";
+    $jsondata['info']['date_updated'] = "20/02/2017";
 	
 	// convert the array into JSON strings, and print
 	echo json_encode($jsondata);
