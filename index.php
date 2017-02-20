@@ -20,7 +20,7 @@ if(isset($_GET['url']))
 	
 	//data fetched from array that used to store decoded JSON
 	$img = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
-	$caption = $jsonobj['entry_data']['PostPage'][0]['media']['caption'];
+	$caption = (isset($jsonobj['entry_data']['PostPage'][0]['media']['caption'])) ? $jsonobj['entry_data']['PostPage'][0]['media']['caption'] : null;
 	$username = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['username'];
 	$full_name = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['full_name'];
 	$userid = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['id'];
