@@ -50,6 +50,8 @@ if(isset($_GET['url']))
 		$jsondata['tagged_users'][] = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
 	}
 	
+	// convert the array into JSON strings, and print
+	echo json_encode($jsondata);
 
 }
 ?>
