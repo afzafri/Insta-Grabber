@@ -1,5 +1,15 @@
 <?php
 
+/*  Instagram Post API created by Afif Zafri.
+    Post details are fetched directly from Instagram website,
+    parse the content, and return JSON formatted string.
+    Please note that this is not the official API, this is actually just a "hack",
+    or workaround.
+    Usage: http://site.com/index.php?url=URLPOST , where URLPOST is the Instagram post url
+*/
+
+header("Access-Control-Allow-Origin: *"); # enable CORS
+
 if(isset($_GET['url']))
 { 
 	$url = $_GET['url'];
