@@ -25,38 +25,47 @@ if(isset($_GET['url']))
 	
 	//decode JSON and store into array var $jsonobj
 	$jsonobj = json_decode($text,true);
-	
-	//data fetched from array that used to store decoded JSON
-	$img = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
-	$caption = (isset($jsonobj['entry_data']['PostPage'][0]['media']['caption'])) ? $jsonobj['entry_data']['PostPage'][0]['media']['caption'] : null;
-	$username = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['username'];
-	$full_name = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['full_name'];
-	$userid = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['id'];
-	$location = $jsonobj['entry_data']['PostPage'][0]['media']['location']['name'];
-	$likes = $jsonobj['entry_data']['PostPage'][0]['media']['likes']['count'];
-	$comments = $jsonobj['entry_data']['PostPage'][0]['media']['comments']['count'];
-	$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'];
 
 	//initialized new associative array, for storing the data
-	//why not just return the scraped json? well as you can see above, the original json is wayyyy to deep
+	//why not just return the scraped json? well as you can see below, the original json is wayyyy to deep
 	$jsondata = array();
 	$jsondata['http_code'] = $httpstatus; # set http response code into the array
-
-	//store data
-	$jsondata['data']['user_id'] = $userid;
-	$jsondata['data']['username'] = $username;
-	$jsondata['data']['full_name'] = $full_name;
-	$jsondata['data']['image_url'] = $img;
-	$jsondata['data']['caption'] = $caption;
-	$jsondata['data']['likes'] = $likes;
-	$jsondata['data']['comments'] = $comments;
-	$jsondata['data']['location'] = $location;
-	$jsondata['data']['tagged_users'] = array();
 	
-	//loop array to get list of users_in_photo
-	for($i=0;$i<count($arrusersphoto);$i++)
+	if(isset($jsonobj['entry_data']['PostPage']))
 	{
-		$jsondata['data']['tagged_users'][] = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
+		$jsondata['message'] = "Data available";
+
+		//data fetched from array that used to store decoded JSON
+		$img = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
+		$caption = (isset($jsonobj['entry_data']['PostPage'][0]['media']['caption'])) ? $jsonobj['entry_data']['PostPage'][0]['media']['caption'] : null;
+		$username = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['username'];
+		$full_name = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['full_name'];
+		$userid = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['id'];
+		$location = $jsonobj['entry_data']['PostPage'][0]['media']['location']['name'];
+		$likes = $jsonobj['entry_data']['PostPage'][0]['media']['likes']['count'];
+		$comments = $jsonobj['entry_data']['PostPage'][0]['media']['comments']['count'];
+		$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'];
+
+		//store data
+		$jsondata['data']['user_id'] = $userid;
+		$jsondata['data']['username'] = $username;
+		$jsondata['data']['full_name'] = $full_name;
+		$jsondata['data']['image_url'] = $img;
+		$jsondata['data']['caption'] = $caption;
+		$jsondata['data']['likes'] = $likes;
+		$jsondata['data']['comments'] = $comments;
+		$jsondata['data']['location'] = $location;
+		$jsondata['data']['tagged_users'] = array();
+		
+		//loop array to get list of users_in_photo
+		for($i=0;$i<count($arrusersphoto);$i++)
+		{
+			$jsondata['data']['tagged_users'][] = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
+		}
+	}
+	else
+	{
+		$jsondata['message'] = "Data not available. Post deleted or account is private.";
 	}
 
 	# project info
