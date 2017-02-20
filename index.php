@@ -9,7 +9,7 @@ if(isset($_GET['url']))
     $ch = curl_init(); # initialize curl object
     curl_setopt($ch, CURLOPT_URL, $url); # set url
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); # receive server response
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); # do verify SSL
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); # do not verify SSL
     $data = curl_exec($ch); # execute curl, fetch webpage content
     echo curl_error($ch);
     $httpstatus = curl_getinfo($ch, CURLINFO_HTTP_CODE); # receive http response status
