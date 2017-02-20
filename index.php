@@ -28,42 +28,17 @@ if(isset($_GET['url']))
 	$likes = $jsonobj['entry_data']['PostPage'][0]['media']['likes']['count'];
 	$comments = $jsonobj['entry_data']['PostPage'][0]['media']['comments']['count'];
 	$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'];
-	
-	echo " <h3>Data : </h3>";
-	echo "	<img src='$img' title='photo' height='300px'><br>
-				<i>Caption : $caption</i><br><br>
-				
-				<table>
-				<tr>
-				<th>User ID :</th><td>$userid</td>
-				</tr>
-				<tr>
-				<th>Username :</th><td>$username</td>
-				</tr>
-				<tr>
-				<th>Full Name :</th><td>$full_name</td>
-				</tr>
-				<tr>
-				<th>Location :</th><td>$location</td>
-				</tr>
-				<tr>
-				<th>No. Comments :</th><td>$comments</td>
-				</tr>
-				<tr>
-				<th>No. Likes :</th><td>$likes</td>
-				</tr> ";
-	echo " <tr>
-				<th>Users in Photo :</th><td>";	
+
+	//initialized new associative array, for storing the data
+	//why not just return the scraped json? well as you can see above, the original json is wayyyy to deep
+	$jsondata = array();
 	
 	//loop array to get list of users_in_photo
 	for($i=0;$i<count($arrusersphoto);$i++)
 	{
 		$listuser = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
-		echo "$listuser<br>";
 	}
-	echo " </td></tr>";
-			
-	echo " </table>";	
+	
 
 }
 ?>
