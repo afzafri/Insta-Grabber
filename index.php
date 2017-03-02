@@ -46,7 +46,6 @@ if(isset($_GET['url']))
 		$jsondata['message'] = "Data available";
 
 		//data fetched from array that used to store decoded JSON
-		$img = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
 		$caption = (isset($jsonobj['entry_data']['PostPage'][0]['media']['caption'])) ? $jsonobj['entry_data']['PostPage'][0]['media']['caption'] : null;
 		$username = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['username'];
 		$full_name = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['full_name'];
@@ -55,6 +54,19 @@ if(isset($_GET['url']))
 		$likes = $jsonobj['entry_data']['PostPage'][0]['media']['likes']['count'];
 		$comments = $jsonobj['entry_data']['PostPage'][0]['media']['comments']['count'];
 		$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'];
+
+		//check if the instagram post have multiple photos or not and store into var
+		if(isset($jsonobj['entry_data']['PostPage'][0]['media']['edge_sidecar_to_children']))
+		{
+			foreach($jsonobj['entry_data']['PostPage'][0]['media']['edge_sidecar_to_children']['edges'] as $images) 
+			{
+				$img[] = $images['node']['display_url'];
+			}
+		}  
+		else
+		{
+			$img = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
+		} 
 
 		//store data
 		$jsondata['data']['user_id'] = $userid;
