@@ -55,6 +55,7 @@ if(isset($_GET['url']))
 		$comments = $jsonobj['entry_data']['PostPage'][0]['media']['comments']['count'];
 		$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'];
 		$img = array(); // array for storing user photos
+		$video = "";
 
 		//check if the instagram post have multiple photos or not and store into var
 		if(isset($jsonobj['entry_data']['PostPage'][0]['media']['edge_sidecar_to_children']))
@@ -69,11 +70,18 @@ if(isset($_GET['url']))
 			$img[] = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
 		} 
 
+		//check if the post contain video
+		if($jsonobj['entry_data']['PostPage'][0]['media']['is_video'] == true)
+		{
+			$video = $jsonobj['entry_data']['PostPage'][0]['media']['video_url'];
+		}  
+
 		//store data
 		$jsondata['data']['user_id'] = $userid;
 		$jsondata['data']['username'] = $username;
 		$jsondata['data']['full_name'] = $full_name;
 		$jsondata['data']['image_url'] = $img;
+		$jsondata['data']['video_url'] = $video;
 		$jsondata['data']['caption'] = $caption;
 		$jsondata['data']['likes'] = $likes;
 		$jsondata['data']['comments'] = $comments;
@@ -100,4 +108,18 @@ if(isset($_GET['url']))
 	echo json_encode($jsondata);
 
 }
+else
+{
+	?>
+	<p>
+		Instagram Post API created by Afif Zafri. <br>
+	    Post details are fetched directly from Instagram website, <br>
+	    parse the content, and return JSON formatted string. <br>
+	    Please note that this is not the official API, this is actually just a "hack", <br>
+	    or workaround. <br>
+	    Usage: http://site.com/index.php?url=URLPOST , where URLPOST is the Instagram post url <br>
+	</p>
+	<?php
+}
+
 ?>
