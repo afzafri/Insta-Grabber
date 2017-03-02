@@ -41,7 +41,14 @@ if(isset($_POST['submit']))
 	$tagged_users = $parsed['data']['tagged_users'];
 
 	echo " <h3>Data : </h3>";
-	echo "	<img src='$img' title='photo' height='300px'><br>
+
+	foreach($img as $img)
+	{
+		echo "<img src='$img' title='photo' height='300px'>";
+	}
+
+	echo "
+				<br>
 				<i>Caption : $caption</i><br><br>
 				
 				<table>
