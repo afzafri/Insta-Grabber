@@ -54,6 +54,7 @@ if(isset($_GET['url']))
 		$likes = $jsonobj['entry_data']['PostPage'][0]['media']['likes']['count'];
 		$comments = $jsonobj['entry_data']['PostPage'][0]['media']['comments']['count'];
 		$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'];
+		$img = array(); // array for storing user photos
 
 		//check if the instagram post have multiple photos or not and store into var
 		if(isset($jsonobj['entry_data']['PostPage'][0]['media']['edge_sidecar_to_children']))
@@ -65,7 +66,7 @@ if(isset($_GET['url']))
 		}  
 		else
 		{
-			$img = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
+			$img[] = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
 		} 
 
 		//store data
