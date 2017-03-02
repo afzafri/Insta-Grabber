@@ -34,6 +34,7 @@ if(isset($_POST['submit']))
 	$username = $parsed['data']['username'];
 	$full_name = $parsed['data']['full_name'];
 	$img = $parsed['data']['image_url'];
+	$video = $parsed['data']['video_url'];
 	$caption = $parsed['data']['caption'];
 	$likes = $parsed['data']['likes'];
 	$comments = $parsed['data']['comments'];
@@ -42,10 +43,24 @@ if(isset($_POST['submit']))
 
 	echo " <h3>Data : </h3>";
 
-	foreach($img as $img)
+	// check if post not contain video, display photos, if yes, display video
+	if($video == "")
 	{
-		echo "<img src='$img' title='photo' height='300px'>";
+		foreach($img as $img)
+		{
+			echo "<img src='$img' title='photo' height='300px'>";
+		}
 	}
+	else
+	{
+		echo "
+			<video controls>
+			  <source src='$video' type='video/mp4'>
+			Your browser does not support the video tag.
+			</video>
+			";
+	}
+	
 
 	echo "
 				<br>
