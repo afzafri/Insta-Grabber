@@ -90,7 +90,7 @@ if(isset($_GET['url']))
 		//loop array to get list of users_in_photo
 		for($i=0;$i<count($arrusersphoto);$i++)
 		{
-			$jsondata['data']['tagged_users'][] = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
+			$jsondata['data']['tagged_users'][] = $arrusersphoto[$i]['node']['user']['username'];
 		}
 	}
 	else
