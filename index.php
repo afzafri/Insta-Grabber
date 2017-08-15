@@ -70,9 +70,9 @@ if(isset($_GET['url']))
 		} 
 
 		//check if the post contain video
-		if($jsonobj['entry_data']['PostPage'][0]['media']['is_video'] == true)
+		if($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['is_video'] == true)
 		{
-			$video = $jsonobj['entry_data']['PostPage'][0]['media']['video_url'];
+			$video = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['video_url'];
 		}  
 
 		//store data
