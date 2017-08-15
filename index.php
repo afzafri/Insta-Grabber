@@ -43,19 +43,16 @@ if(isset($_GET['url']))
 	
 	if(isset($jsonobj['entry_data']['PostPage']))
 	{
-		//test output new json structure
-		$jsondata['message'] = "Data available";
-		print_r($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_caption']['edges'][0]['node']['text']);
-		/*
+		
 		//data fetched from array that used to store decoded JSON
-		$caption = (isset($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_caption']['edges']['node']['text'])) ? $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_caption']['edges']['node']['text'] : null;
-		$username = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['username'];
-		$full_name = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['full_name'];
-		$userid = $jsonobj['entry_data']['PostPage'][0]['media']['owner']['id'];
-		$location = $jsonobj['entry_data']['PostPage'][0]['media']['location']['name'];
-		$likes = $jsonobj['entry_data']['PostPage'][0]['media']['likes']['count'];
-		$comments = $jsonobj['entry_data']['PostPage'][0]['media']['comments']['count'];
-		$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'];
+		$caption = (isset($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_caption']['edges'][0]['node']['text'])) ? $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_caption']['edges'][0]['node']['text'] : null;
+		$username = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'];
+		$full_name = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['full_name'];
+		$userid = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['id'];
+		$location = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['location']['name'];
+		$likes = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']['count'];
+		$comments = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_comment']['count'];
+		$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_tagged_user']['edges'];
 		$img = array(); // array for storing user photos
 		$video = "";
 
@@ -94,7 +91,7 @@ if(isset($_GET['url']))
 		for($i=0;$i<count($arrusersphoto);$i++)
 		{
 			$jsondata['data']['tagged_users'][] = $jsonobj['entry_data']['PostPage'][0]['media']['usertags']['nodes'][$i]['user']['username'];
-		}*/
+		}
 	}
 	else
 	{
