@@ -57,16 +57,16 @@ if(isset($_GET['url']))
 		$video = "";
 
 		//check if the instagram post have multiple photos or not and store into var
-		if(isset($jsonobj['entry_data']['PostPage'][0]['media']['edge_sidecar_to_children']))
+		if(isset($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']))
 		{
-			foreach($jsonobj['entry_data']['PostPage'][0]['media']['edge_sidecar_to_children']['edges'] as $images) 
+			foreach($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'] as $images) 
 			{
 				$img[] = $images['node']['display_url'];
 			}
 		}  
 		else
 		{
-			$img[] = $jsonobj['entry_data']['PostPage'][0]['media']['display_src'];
+			$img[] = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url'];
 		} 
 
 		//check if the post contain video
