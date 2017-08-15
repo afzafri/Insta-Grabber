@@ -5,6 +5,8 @@
   - Only work for public instagram accounts, cannot fetch data from a private account.
 
 ## Updates
+- 15/08/2017
+	- Update the API since Instagram now change the JSON data structure.
 - 02/03/2017
 	- Update script to grab all photos from Instagram post. Since now Instagram has allowed users to upload multiple photos per post.
 	- Now script will grab video url, if the Instagram post is a video.
