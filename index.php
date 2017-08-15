@@ -101,7 +101,7 @@ if(isset($_GET['url']))
 	# project info
     $jsondata['info']['creator'] = "Afif Zafri (afzafri)";
     $jsondata['info']['project_page'] = "https://github.com/afzafri/Insta-Grabber";
-    $jsondata['info']['date_updated'] = "20/02/2017";
+    $jsondata['info']['date_updated'] = "15/08/2017";
 	
 	// convert the array into JSON strings, and print
 	echo json_encode($jsondata);
