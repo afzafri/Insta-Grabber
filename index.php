@@ -56,6 +56,16 @@ if(isset($_GET['url']))
 		$img = array(); // array for storing user photos
 		$video = "";
 
+		// function for checking if post contain video
+		function checkVideo($arrl)
+		{
+			//check if the post contain video
+			if($arrl['is_video'] == true)
+			{
+				return $arrl['video_url'];
+			}  
+		}
+
 		//check if the instagram post have multiple photos or not and store into var
 		if(isset($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']))
 		{
@@ -70,10 +80,13 @@ if(isset($_GET['url']))
 		} 
 
 		//check if the post contain video
-		if($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['is_video'] == true)
+		/*if($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['is_video'] == true)
 		{
 			$video = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['video_url'];
-		}  
+		}  */
+		$video = checkVideo($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']);
+
+		
 
 		//store data
 		$jsondata['data']['user_id'] = $userid;
