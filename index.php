@@ -72,7 +72,12 @@ if(isset($_GET['url']))
 			foreach($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'] as $images) 
 			{
 				$img[] = $images['node']['display_url'];
-				$video[] = checkVideo($images['node']);
+
+				if(checkVideo($images['node']) != null)
+				{
+					$video[] = checkVideo($images['node']);
+				}
+				
 			}
 		}  
 		else
