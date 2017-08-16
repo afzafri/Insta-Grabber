@@ -72,6 +72,7 @@ if(isset($_GET['url']))
 			foreach($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'] as $images) 
 			{
 				$img[] = $images['node']['display_url'];
+				$video[] = checkVideo($images['node']);
 			}
 		}  
 		else
@@ -79,7 +80,7 @@ if(isset($_GET['url']))
 			$img[] = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url'];
 			$video[] = checkVideo($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']);
 		} 
-		
+
 		//store data
 		$jsondata['data']['user_id'] = $userid;
 		$jsondata['data']['username'] = $username;
