@@ -54,7 +54,7 @@ if(isset($_GET['url']))
 		$comments = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_comment']['count'];
 		$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_tagged_user']['edges'];
 		$img = array(); // array for storing user photos
-		$video = "";
+		$video = array();
 
 		// function for checking if post contain video
 		function checkVideo($arrl)
@@ -77,17 +77,9 @@ if(isset($_GET['url']))
 		else
 		{
 			$img[] = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url'];
+			$video[] = checkVideo($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']);
 		} 
-
-		//check if the post contain video
-		/*if($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['is_video'] == true)
-		{
-			$video = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['video_url'];
-		}  */
-		$video = checkVideo($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']);
-
 		
-
 		//store data
 		$jsondata['data']['user_id'] = $userid;
 		$jsondata['data']['username'] = $username;
