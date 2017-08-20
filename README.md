@@ -2,9 +2,11 @@
 - Grab Instagram's post data from Instagram website, and return a JSON formatted strings.
 - Note: 
   - This is not the official API, this is actually just a "hack", or workaround for obtaining the data. This might not last forever.
-  - Only work for public instagram accounts, cannot fetch data from a private account.
+  - For fetching Instagram post data, this API only work for public instagram accounts, cannot fetch data from a private account. But to fetch user's profile data, both public and private accounts works.
 
 ## Updates
+- 21/08/2017
+	- Update the API by adding new feature. Now can fetch the user's profile data such as the profile picture and biography.
 - 15/08/2017
 	- Update the API since Instagram now change the JSON data structure.
 - 02/03/2017
@@ -26,8 +28,11 @@
 Drop all files into your server
 
 ## Usage
-- ```http://site.com/index.php?url=POSTURL```
-- where ```POSTURL``` is the instagram picture url.
+1. For fetching post data
+	- Usage: http://site.com/index.php?postUrl=URLPOST , where ```URLPOST``` is the Instagram post url
+    
+2. For fetching user's profile data
+	- Usage: http://site.com/index.php?username=USERNAME , where ```USERNAME``` is the Instagram user profile url
 - It will then return a JSON formatted string, you can parse the JSON string and do what you want with it.
 
 ## Credits
