@@ -5,7 +5,12 @@
     parse the content, and return JSON formatted string.
     Please note that this is not the official API, this is actually just a "hack",
     or workaround.
+
+    1. For fetching post data
     Usage: http://site.com/index.php?postUrl=URLPOST , where URLPOST is the Instagram post url
+    
+    2. For fetching user's profile data
+	Usage: http://site.com/index.php?username=USERNAME , where USERNAME is the Instagram user profile url
 */
 
 header("Access-Control-Allow-Origin: *"); # enable CORS
@@ -194,8 +199,12 @@ else
 	    Post details are fetched directly from Instagram website, <br>
 	    parse the content, and return JSON formatted string. <br>
 	    Please note that this is not the official API, this is actually just a "hack", <br>
-	    or workaround. <br>
-	    Usage: http://site.com/index.php?postUrl=URLPOST , where URLPOST is the Instagram post url <br>
+	    or workaround. <br><br>
+	    1. For fetching post data<br>
+    	Usage: http://site.com/index.php?postUrl=URLPOST , where URLPOST is the Instagram post url<br><br>
+    
+    	2. For fetching user's profile data<br>
+		Usage: http://site.com/index.php?username=USERNAME , where USERNAME is the Instagram user profile url <br>
 	</p>
 	<?php
 }
