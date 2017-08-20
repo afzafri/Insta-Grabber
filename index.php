@@ -5,14 +5,15 @@
     parse the content, and return JSON formatted string.
     Please note that this is not the official API, this is actually just a "hack",
     or workaround.
-    Usage: http://site.com/index.php?url=URLPOST , where URLPOST is the Instagram post url
+    Usage: http://site.com/index.php?postUrl=URLPOST , where URLPOST is the Instagram post url
 */
 
 header("Access-Control-Allow-Origin: *"); # enable CORS
 
-if(isset($_GET['url']))
+//get instagram's post(pictures) data
+if(isset($_GET['postUrl']))
 { 
-	$url = $_GET['url'];
+	$url = $_GET['postUrl'];
 
 	# use cURL instead of file_get_contents(), this is because on some server, file_get_contents() cannot be used
     # cURL also have more options and customizable
@@ -118,6 +119,11 @@ if(isset($_GET['url']))
 	echo json_encode($jsondata);
 
 }
+//get user's profile data like the profile picture
+else if(isset($_GET['username']))
+{
+	echo "haiii";
+}
 else
 {
 	?>
@@ -127,7 +133,7 @@ else
 	    parse the content, and return JSON formatted string. <br>
 	    Please note that this is not the official API, this is actually just a "hack", <br>
 	    or workaround. <br>
-	    Usage: http://site.com/index.php?url=URLPOST , where URLPOST is the Instagram post url <br>
+	    Usage: http://site.com/index.php?postUrl=URLPOST , where URLPOST is the Instagram post url <br>
 	</p>
 	<?php
 }
