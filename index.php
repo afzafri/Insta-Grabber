@@ -122,7 +122,33 @@ if(isset($_GET['postUrl']))
 //get user's profile data like the profile picture
 else if(isset($_GET['username']))
 {
-	echo "haiii";
+	$url = "https://www.instagram.com/".$_GET['username']."/";
+	
+	# use cURL instead of file_get_contents(), this is because on some server, file_get_contents() cannot be used
+    # cURL also have more options and customizable
+    $ch = curl_init(); # initialize curl object
+    curl_setopt($ch, CURLOPT_URL, $url); # set url
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); # receive server response
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); # do not verify SSL
+    $data = curl_exec($ch); # execute curl, fetch webpage content
+    echo curl_error($ch);
+    $httpstatus = curl_getinfo($ch, CURLINFO_HTTP_CODE); # receive http response status
+    curl_close($ch);  # close curl
+	
+	//strpos to get location for begin and end of JSON data. to use with substr
+	//Need to do this because we only need the JSON data not the whole source code
+	$begin = strpos($data, '<script type="text/javascript">window._sharedData =') + strlen('<script type="text/javascript">window._sharedData ='); 
+	$end   = strpos($data, ';</script>');
+	
+	//substr() function to get only JSON data from whole source code
+	$text = substr($data, $begin, ($end - $begin));
+	
+	//decode JSON and store into array var $jsonobj
+	$jsonobj = json_decode($text,true);
+
+	print_r($jsonobj);
+
+	
 }
 else
 {
