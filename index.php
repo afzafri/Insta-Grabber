@@ -171,7 +171,7 @@ else if(isset($_GET['username']))
 		$jsondata['data']['external_url'] = $external_url;
 		$jsondata['data']['followedby'] = $followedby;
 		$jsondata['data']['follows'] = $follows;
-		$jsondata['data']['profilepic'] = $profilepic;
+		$jsondata['data']['profilepic'] = str_replace("s320x320/", "", $profilepic); #remove to get HD pic
 	}
 	else
 	{
