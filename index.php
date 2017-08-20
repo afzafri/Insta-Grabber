@@ -146,9 +146,45 @@ else if(isset($_GET['username']))
 	//decode JSON and store into array var $jsonobj
 	$jsonobj = json_decode($text,true);
 
-	print_r($jsonobj);
+	//initialized new associative array, for storing the data
+	//why not just return the scraped json? well as you can see below, the original json is wayyyy to deep
+	$jsondata = array();
+	$jsondata['http_code'] = $httpstatus; # set http response code into the array
 
+	if(isset($jsonobj['entry_data']['ProfilePage']))
+	{
+		//data fetched from array that used to store decoded JSON
+		$username = $jsonobj['entry_data']['ProfilePage'][0]['user']['username'];
+		$full_name = $jsonobj['entry_data']['ProfilePage'][0]['user']['full_name'];
+		$userid = $jsonobj['entry_data']['ProfilePage'][0]['user']['id'];
+		$biography = $jsonobj['entry_data']['ProfilePage'][0]['user']['biography'];
+		$external_url = $jsonobj['entry_data']['ProfilePage'][0]['user']['external_url'];
+		$followedby = $jsonobj['entry_data']['ProfilePage'][0]['user']['followed_by']['count'];
+		$follows = $jsonobj['entry_data']['ProfilePage'][0]['user']['follows']['count'];
+		$profilepic = $jsonobj['entry_data']['ProfilePage'][0]['user']['profile_pic_url_hd'];
+
+		//store data
+		$jsondata['data']['user_id'] = $userid;
+		$jsondata['data']['username'] = $username;
+		$jsondata['data']['full_name'] = $full_name;
+		$jsondata['data']['biography'] = $biography;
+		$jsondata['data']['external_url'] = $external_url;
+		$jsondata['data']['followedby'] = $followedby;
+		$jsondata['data']['follows'] = $follows;
+		$jsondata['data']['profilepic'] = $profilepic;
+	}
+	else
+	{
+		$jsondata['message'] = "Data not available. Account deactivated or account is private.";
+	}
+
+	# project info
+    $jsondata['info']['creator'] = "Afif Zafri (afzafri)";
+    $jsondata['info']['project_page'] = "https://github.com/afzafri/Insta-Grabber";
+    $jsondata['info']['date_updated'] = "15/08/2017";
 	
+	// convert the array into JSON strings, and print
+	echo json_encode($jsondata);
 }
 else
 {
