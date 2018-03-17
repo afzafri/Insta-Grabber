@@ -57,7 +57,7 @@
 				<div class="input-group">
 					<input class="form-control" type="text" placeholder="Enter the Instagram Photo/Video post URL here" name="url" value="<?php echo  (isset($_POST['url'])) ? $_POST['url'] : ""; ?>">
 					<span class="input-group-btn">
-						<input class="btn btn-success" type="submit" name="submit">
+						<input class="btn btn-success" type="submit" name="postData">
 					</span>
 				</div>
 			</form>
@@ -77,7 +77,7 @@
 					<span class="input-group-addon"><i>@</i></span>
 					<input class="form-control" type="text" placeholder="Enter username" name="username" value="<?php echo  (isset($_POST['username'])) ? $_POST['username'] : ""; ?>">
 					<span class="input-group-btn">
-						<input class="btn btn-success" type="submit" name="submit">
+						<input class="btn btn-success" type="submit" name="profileData">
 					</span>
 				</div>
 			</form>
@@ -94,7 +94,7 @@
 
 <?php
 
-if(isset($_POST['submit']))
+if(isset($_POST['postData']))
 {
 
 	?>
@@ -279,6 +279,29 @@ if(isset($_POST['submit']))
 			</center>
 
 	</div>";
+
+}
+
+if(isset($_POST['profileData']))
+{
+
+	?>
+
+	<div class="panel panel-info">
+		<div class="panel-heading">
+			<strong>Results:</strong>
+		</div>
+
+		<div class="panel-body">
+			<center>
+
+	<?php
+
+				$url = "http://localhost/instafetch/index.php?username=".$_POST['username']; # the full URL to the API including the instagram post url
+				$getdata = file_get_contents($url); # use files_get_contents() to fetch the data, but you can also use cURL, or javascript/jquery json
+				$parsed = json_decode($getdata,true); # decode the json into array. set true to return array instead of object
+
+				print_r($getdata);
 
 }
 
