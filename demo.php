@@ -160,7 +160,7 @@ if(isset($_POST['postData']))
 					}
 
 					$carouselimgs .= "<div class='item $activetag'>
-						                <img src='$img' alt='Photo #".($countImg+1)."' height='450px' class='img-responsive img-thumbnail'>
+						                <img src='$img' alt='Photo #".($countImg+1)."' height='450px' class='img-responsive img-thumbnail'/>
 						            </div>";
 
 					$carouselindphoto .= "<li data-target='#carouselPhotos' data-slide-to='$countImg' class='$activetag'></li>";
@@ -329,6 +329,56 @@ else if(isset($_POST['profileData']))
 				$follows = $parsed['data']['follows'];
 				$no_posts = $parsed['data']['no_posts'];
 				$profilepic = $parsed['data']['profilepic'];
+
+				echo "
+							<h4>Profile Picture</h4>
+							<img src='$profilepic' title='Profile Picture' height='450px' class='img-responsive img-thumbnail'/>
+
+							<br><br>
+							
+							<table class='table table-responsive table-bordered table-hover'>
+							<tr>
+								<th class='bg-info text-white'>User ID :</th>
+								<td>$userid</td>
+							</tr>
+							<tr>
+								<th class='bg-info text-white'>Username :</th>
+								<td>$username</td>
+							</tr>
+							<tr>
+								<th class='bg-info text-white'>Full Name :</th>
+								<td>$full_name</td>
+							</tr>
+							<tr>
+								<th class='bg-info text-white'>Bio :</th>
+								<td>$biography</td>
+							</tr>
+							<tr>
+								<th class='bg-info text-white'>Website :</th>
+								<td><a href='$external_url' target='_blank'>$external_url</a></td>
+							</tr>
+							<tr>
+								<th class='bg-info text-white'>Followers :</th>
+								<td>$followedby</td>
+							</tr> 
+							<tr>
+								<th class='bg-info text-white'>Following :</th>
+								<td>$follows</td>
+							</tr>
+							<tr>
+								<th class='bg-info text-white'>Number of posts :</th>
+								<td>$no_posts</td>
+							</tr>
+							";
+						
+				echo " </table>";	
+
+	echo "
+			<br><br>
+			<i>Afif Zafri &copy; 2017</i>
+			</center>
+
+	</div>";
 
 }
 
