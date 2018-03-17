@@ -150,7 +150,7 @@ else if(isset($_GET['username']))
 	
 	//decode JSON and store into array var $jsonobj
 	$jsonobj = json_decode($text,true);
-
+	
 	//initialized new associative array, for storing the data
 	//why not just return the scraped json? well as you can see below, the original json is wayyyy to deep
 	$jsondata = array();
@@ -159,14 +159,14 @@ else if(isset($_GET['username']))
 	if(isset($jsonobj['entry_data']['ProfilePage']))
 	{
 		//data fetched from array that used to store decoded JSON
-		$username = $jsonobj['entry_data']['ProfilePage'][0]['user']['username'];
-		$full_name = $jsonobj['entry_data']['ProfilePage'][0]['user']['full_name'];
-		$userid = $jsonobj['entry_data']['ProfilePage'][0]['user']['id'];
-		$biography = $jsonobj['entry_data']['ProfilePage'][0]['user']['biography'];
-		$external_url = $jsonobj['entry_data']['ProfilePage'][0]['user']['external_url'];
-		$followedby = $jsonobj['entry_data']['ProfilePage'][0]['user']['followed_by']['count'];
-		$follows = $jsonobj['entry_data']['ProfilePage'][0]['user']['follows']['count'];
-		$profilepic = $jsonobj['entry_data']['ProfilePage'][0]['user']['profile_pic_url_hd'];
+		$username = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['username'];
+		$full_name = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['full_name'];
+		$userid = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['id'];
+		$biography = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['biography'];
+		$external_url = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['external_url'];
+		$followedby = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['followed_by']['count'];
+		$follows = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['follows']['count'];
+		$profilepic = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['profile_pic_url_hd'];
 
 		//store data
 		$jsondata['data']['user_id'] = $userid;
