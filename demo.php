@@ -294,7 +294,7 @@ if(isset($_POST['postData']))
 
 	echo "
 			<br><br>
-			<i>Afif Zafri &copy; 2017</i>
+			<i>Afif Zafri &copy; 2017 - ".date("Y")."</i>
 			</center>
 
 	</div>";
@@ -375,7 +375,7 @@ else if(isset($_POST['profileData']))
 
 	echo "
 			<br><br>
-			<i>Afif Zafri &copy; 2017</i>
+			<i>Afif Zafri &copy; 2017 - ".date("Y")."</i>
 			</center>
 
 	</div>";
