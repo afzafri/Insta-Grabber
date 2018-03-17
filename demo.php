@@ -92,31 +92,31 @@ if(isset($_POST['submit']))
 				$tagged_users = $parsed['data']['tagged_users'];
 
 				// loop to display all photo and videos available
-				$count = 1;
-				$carouselind = "";
+				$countImg = 0;
+				$carouselindphoto = "";
 				$carouselimgs = "";
 				foreach($img as $img)
 				{
+					$countImg++;
+					
 					$activetag = "";
-					if($count == 1)
+					if($countImg == 1)
 					{
 						$activetag = "active";
 					}
 
 					$carouselimgs .= "<div class='item $activetag'>
-						                <img src='$img' alt='Photo #$count' height='450px' class='img-responsive img-thumbnail'>
+						                <img src='$img' alt='Photo #".($countImg+1)."' height='450px' class='img-responsive img-thumbnail'>
 						            </div>";
 
-					$carouselind .= "<li data-target='#myCarousel' data-slide-to='".($count-1)."' class='$activetag'></li>";
-
-				    $count++;
+					$carouselindphoto .= "<li data-target='#carouselPhotos' data-slide-to='$countImg' class='$activetag'></li>";
 				}
 
-
-				echo "<div id='myCarousel' class='carousel slide' data-ride='carousel'>
+				echo "<h4>Photos</h4>";
+				echo "<div id='carouselPhotos' class='carousel slide' data-ride='carousel'>
 				        <!-- Carousel indicators -->
 				        <ol class='carousel-indicators'>
-				            $carouselind
+				            $carouselindphoto
 				        </ol>   
 				        <!-- Wrapper for carousel items -->
 				        <div class='carousel-inner'>";
@@ -125,30 +125,70 @@ if(isset($_POST['submit']))
 			
 				echo "</div>
 				        <!-- Carousel controls -->
-				        <a class='carousel-control left' href='#myCarousel' data-slide='prev'>
+				        <a class='carousel-control left' href='#carouselPhotos' data-slide='prev'>
 				            <span class='glyphicon glyphicon-chevron-left'></span>
 				        </a>
-				        <a class='carousel-control right' href='#myCarousel' data-slide='next'>
+				        <a class='carousel-control right' href='#carouselPhotos' data-slide='next'>
 				            <span class='glyphicon glyphicon-chevron-right'></span>
 				        </a>
-				    </div>";
+				    </div><br><br>";
+
+				$countVid = 0;
+				$carouselindvid = "";
+				$carouselvids = "";
 
 				foreach($video as $video)
 				{
-					// if the no video, do not show the video player
+					// if no video, do not show the video player
 					if(!empty($video))
 					{
-						echo "
-						<video height='450px' controls class='img-responsive img-thumbnail'>
-						  <source src='$video' type='video/mp4'>
-						Your browser does not support the video tag.
-						</video>
-						<br>
+						$countVid++;
+
+						$activetag = "";
+						if($countVid == 1)
+						{
+							$activetag = "active";
+						}
+
+						$carouselvids .= "
+						<div class='item $activetag'>
+							<video height='450px' controls class='img-responsive img-thumbnail'>
+							  <source src='$video' type='video/mp4'>
+							Your browser does not support the video tag.
+							</video>
+						</div>
 						";
+
+						$carouselindvid .= "<li data-target='#carouselVideos' data-slide-to='$countVid' class='$activetag'></li>";
 					}
 				}
-				
 
+				// if videos available, show the videos
+				if($countVid > 0)
+				{
+					echo "<h4>Videos</h4>";
+					echo "<div id='carouselVideos' class='carousel slide' data-ride='carousel'>
+				        <!-- Carousel indicators -->
+				        <ol class='carousel-indicators'>
+				            $carouselindphoto
+				        </ol>   
+				        <!-- Wrapper for carousel items -->
+				        <div class='carousel-inner'>";
+				        
+					echo $carouselvids;
+				
+					echo "</div>
+					        <!-- Carousel controls -->
+					        <a class='carousel-control left' href='#carouselVideos' data-slide='prev'>
+					            <span class='glyphicon glyphicon-chevron-left'></span>
+					        </a>
+					        <a class='carousel-control right' href='#carouselVideos' data-slide='next'>
+					            <span class='glyphicon glyphicon-chevron-right'></span>
+					        </a>
+					    </div><br><br>";
+				}
+
+				
 				echo "
 							<br>
 							<div class='alert alert-warning'>
