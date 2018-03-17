@@ -327,7 +327,16 @@ else if(isset($_POST['profileData']))
 				$getdata = file_get_contents($url); # use files_get_contents() to fetch the data, but you can also use cURL, or javascript/jquery json
 				$parsed = json_decode($getdata,true); # decode the json into array. set true to return array instead of object
 
-				print_r($getdata);
+				//get data
+				$userid = $parsed['data']['user_id'];
+				$username = $parsed['data']['username'];
+				$full_name = $parsed['data']['full_name'];
+				$biography = $parsed['data']['biography'];
+				$external_url = $parsed['data']['external_url'];
+				$followedby = $parsed['data']['followedby'];
+				$follows = $parsed['data']['follows'];
+				$no_posts = $parsed['data']['no_posts'];
+				$profilepic = $parsed['data']['profilepic'];
 
 }
 
