@@ -43,37 +43,29 @@
 	<ul class="nav nav-tabs">
 
 		<?php
+			$postDataActive = "";
+			$profileDataActive = "";
 			if(isset($_POST['postData']))
 			{
-				echo "
-				<li class='active'><a data-toggle='tab' href='#menu1'>Fetch Post Picture</a></li>
-
-      			<li><a data-toggle='tab' href='#menu2'>Fetch Profile Picture</a></li>
-				";
+				$postDataActive = "active";
 			}
 			else if(isset($_POST['profileData']))
 			{
-				echo "
-				<li><a data-toggle='tab' href='#menu1'>Fetch Post Picture</a></li>
-
-      			<li class='active'><a data-toggle='tab' href='#menu2'>Fetch Profile Picture</a></li>
-				";
+				$profileDataActive = "active";
 			}
 			else
 			{
-				echo "
-				<li class='active'><a data-toggle='tab' href='#menu1'>Fetch Post Picture</a></li>
-
-      			<li><a data-toggle='tab' href='#menu2'>Fetch Profile Picture</a></li>
-				";
+				$postDataActive = "active";
 			}
 		?>
 	 
+		<li class="<?php echo $postDataActive; ?>"><a data-toggle="tab" href="#menu1">Fetch Post Picture</a></li>
 
+      	<li class="<?php echo $profileDataActive; ?>"><a data-toggle="tab" href="#menu2">Fetch Profile Picture</a></li>
 	</ul>
 
 	<div class="tab-content">
-	  <div id="menu1" class="tab-pane fade in active">
+	  <div id="menu1" class="tab-pane fade in <?php echo $postDataActive; ?>">
 	   
 	   	<br>
 	  	<div class="form-group">
@@ -92,7 +84,7 @@
 		</div>
 
 	  </div>
-	  <div id="menu2" class="tab-pane fade">
+	  <div id="menu2" class="tab-pane fade in <?php echo $profileDataActive; ?>">
 	    
 	  	<br>
 	  	<div class="form-group">
