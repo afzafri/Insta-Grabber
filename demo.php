@@ -84,18 +84,17 @@ if(isset($_POST['submit']))
 				$comments = $parsed['data']['comments'];
 				$location = $parsed['data']['location'];
 				$tagged_users = $parsed['data']['tagged_users'];
-
-				// check if post not contain video, display photos, if yes, display video
-				if(empty($video[0]))
+				
+				// loop to display all photo and videos available
+				foreach($img as $img)
 				{
-					foreach($img as $img)
-					{
-						echo "<img src='$img' title='photo' height='450px' class='img-responsive img-thumbnail'><br><br>";
-					}
+					echo "<img src='$img' title='photo' height='450px' class='img-responsive img-thumbnail'><br><br>";
 				}
-				else
+
+				foreach($video as $video)
 				{
-					foreach($video as $video)
+					// if the no video, do not show the video player
+					if(!empty($video))
 					{
 						echo "
 						<video height='450px' controls class='img-responsive img-thumbnail'>
