@@ -41,8 +41,35 @@
 	<div class="panel-body">
 
 	<ul class="nav nav-tabs">
-	  <li class="active"><a data-toggle="tab" href="#menu1">Fetch Post Picture</a></li>
-	  <li><a data-toggle="tab" href="#menu2">Fetch Profile Picture</a></li>
+
+		<?php
+			if(isset($_POST['postData']))
+			{
+				echo "
+				<li class='active'><a data-toggle='tab' href='#menu1'>Fetch Post Picture</a></li>
+
+      			<li><a data-toggle='tab' href='#menu2'>Fetch Profile Picture</a></li>
+				";
+			}
+			else if(isset($_POST['profileData']))
+			{
+				echo "
+				<li><a data-toggle='tab' href='#menu1'>Fetch Post Picture</a></li>
+
+      			<li class='active'><a data-toggle='tab' href='#menu2'>Fetch Profile Picture</a></li>
+				";
+			}
+			else
+			{
+				echo "
+				<li class='active'><a data-toggle='tab' href='#menu1'>Fetch Post Picture</a></li>
+
+      			<li><a data-toggle='tab' href='#menu2'>Fetch Profile Picture</a></li>
+				";
+			}
+		?>
+	 
+
 	</ul>
 
 	<div class="tab-content">
@@ -281,8 +308,7 @@ if(isset($_POST['postData']))
 	</div>";
 
 }
-
-if(isset($_POST['profileData']))
+else if(isset($_POST['profileData']))
 {
 
 	?>
