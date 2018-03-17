@@ -166,6 +166,7 @@ else if(isset($_GET['username']))
 		$external_url = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['external_url'];
 		$followedby = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['edge_followed_by']['count'];
 		$follows = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['edge_follow']['count'];
+		$no_posts = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['count'];
 		$profilepic = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['profile_pic_url_hd'];
 
 		//store data
@@ -176,6 +177,7 @@ else if(isset($_GET['username']))
 		$jsondata['data']['external_url'] = $external_url;
 		$jsondata['data']['followedby'] = $followedby;
 		$jsondata['data']['follows'] = $follows;
+		$jsondata['data']['no_posts'] = $no_posts;
 		$jsondata['data']['profilepic'] = str_replace(array("s320x320/", "vp/"), array("s1080x1080/", ""), $profilepic); #remove to get HD pic
 	}
 	else
