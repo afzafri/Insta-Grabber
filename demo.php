@@ -69,7 +69,7 @@ if(isset($_POST['submit']))
 
 	<?php
 
-				$url = "http://localhost/instafetch/index.php?url=".$_POST['url']; # the full URL to the API including the instagram post url
+				$url = "http://localhost/instafetch/index.php?postUrl=".$_POST['url']; # the full URL to the API including the instagram post url
 				$getdata = file_get_contents($url); # use files_get_contents() to fetch the data, but you can also use cURL, or javascript/jquery json
 				$parsed = json_decode($getdata,true); # decode the json into array. set true to return array instead of object
 
@@ -86,7 +86,7 @@ if(isset($_POST['submit']))
 				$tagged_users = $parsed['data']['tagged_users'];
 
 				// check if post not contain video, display photos, if yes, display video
-				if($video == "")
+				if(empty($video[0]))
 				{
 					foreach($img as $img)
 					{
@@ -95,13 +95,16 @@ if(isset($_POST['submit']))
 				}
 				else
 				{
-					echo "
+					foreach($video as $video)
+					{
+						echo "
 						<video height='450px' controls class='img-responsive img-thumbnail'>
 						  <source src='$video' type='video/mp4'>
 						Your browser does not support the video tag.
 						</video>
 						<br>
 						";
+					}
 				}
 				
 
