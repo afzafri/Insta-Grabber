@@ -189,7 +189,7 @@ if(isset($_POST['submit']))
 				
 							foreach($tagged_users as $users)
 							{
-								echo $users."<br>";
+								echo "<a href='https://www.instagram.com/$users/' target='_blank'>$users</a><br>";
 							}
 
 				echo " 			</td>
