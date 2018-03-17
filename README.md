@@ -9,6 +9,7 @@
 	- Update the fetch user's profile data API since IG have changed the JSON data structure.
 	- Update the fetch photo data API to return locations url and id.
 	- Update the demo page, now will show both videos and photos inside carousel slides.
+	- Update the demo page, now have tab menu to select between fetching user's Post Data and Profile Data.
 - 21/08/2017
 	- Update the API by adding new feature. Now can fetch the user's profile data such as the profile picture and biography.
 - 15/08/2017
