@@ -39,7 +39,17 @@
 	</div>
 	
 	<div class="panel-body">
-		<div class="form-group">
+
+	<ul class="nav nav-tabs">
+	  <li class="active"><a data-toggle="tab" href="#menu1">Fetch Post Picture</a></li>
+	  <li><a data-toggle="tab" href="#menu2">Fetch Profile Picture</a></li>
+	</ul>
+
+	<div class="tab-content">
+	  <div id="menu1" class="tab-pane fade in active">
+	   
+	   	<br>
+	  	<div class="form-group">
 
 			<form action="./demo.php" method="post">
 				<label for="url">Instagram Photo URL: </label>
@@ -53,6 +63,31 @@
 			</form>
 
 		</div>
+
+	  </div>
+	  <div id="menu2" class="tab-pane fade">
+	    
+	  	<br>
+	  	<div class="form-group">
+
+			<form action="./demo.php" method="post">
+				<label for="url">Instagram Username: </label>
+
+				<div class="input-group">
+					<span class="input-group-addon"><i>@</i></span>
+					<input class="form-control" type="text" placeholder="Enter username" name="username" value="<?php echo  (isset($_POST['username'])) ? $_POST['username'] : ""; ?>">
+					<span class="input-group-btn">
+						<input class="btn btn-success" type="submit" name="submit">
+					</span>
+				</div>
+			</form>
+
+		</div>
+
+	  </div>
+	</div>
+
+
 	</div>
 </div>
 
@@ -98,7 +133,7 @@ if(isset($_POST['submit']))
 				foreach($img as $img)
 				{
 					$countImg++;
-					
+
 					$activetag = "";
 					if($countImg == 1)
 					{
