@@ -87,7 +87,8 @@ if(isset($_POST['submit']))
 				$caption = $parsed['data']['caption'];
 				$likes = $parsed['data']['likes'];
 				$comments = $parsed['data']['comments'];
-				$location = $parsed['data']['location'];
+				$location_name = $parsed['data']['location']['name'];
+				$location_url = $parsed['data']['location']['url'];
 				$tagged_users = $parsed['data']['tagged_users'];
 
 				// loop to display all photo and videos available
@@ -171,7 +172,7 @@ if(isset($_POST['submit']))
 							</tr>
 							<tr>
 								<th class='bg-info text-white'>Location :</th>
-								<td>$location</td>
+								<td><a href='$location_url' target='_blank'>$location_name</a></td>
 							</tr>
 							<tr>
 								<th class='bg-info text-white'>No. Comments :</th>
