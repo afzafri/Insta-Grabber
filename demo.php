@@ -4,6 +4,12 @@
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
+<!-- jQuery -->
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -51,7 +57,6 @@
 </div>
 
 
-
 <?php
 
 if(isset($_POST['submit']))
@@ -84,12 +89,48 @@ if(isset($_POST['submit']))
 				$comments = $parsed['data']['comments'];
 				$location = $parsed['data']['location'];
 				$tagged_users = $parsed['data']['tagged_users'];
-				
+
 				// loop to display all photo and videos available
+				$count = 1;
+				$carouselind = "";
+				$carouselimgs = "";
 				foreach($img as $img)
 				{
-					echo "<img src='$img' title='photo' height='450px' class='img-responsive img-thumbnail'><br><br>";
+					$activetag = "";
+					if($count == 1)
+					{
+						$activetag = "active";
+					}
+
+					$carouselimgs .= "<div class='item $activetag'>
+						                <img src='$img' alt='Photo #$count' height='450px' class='img-responsive img-thumbnail'>
+						            </div>";
+
+					$carouselind .= "<li data-target='#myCarousel' data-slide-to='".($count-1)."' class='$activetag'></li>";
+
+				    $count++;
 				}
+
+
+				echo "<div id='myCarousel' class='carousel slide' data-ride='carousel'>
+				        <!-- Carousel indicators -->
+				        <ol class='carousel-indicators'>
+				            $carouselind
+				        </ol>   
+				        <!-- Wrapper for carousel items -->
+				        <div class='carousel-inner'>";
+				        
+				echo $carouselimgs;
+			
+				echo "</div>
+				        <!-- Carousel controls -->
+				        <a class='carousel-control left' href='#myCarousel' data-slide='prev'>
+				            <span class='glyphicon glyphicon-chevron-left'></span>
+				        </a>
+				        <a class='carousel-control right' href='#myCarousel' data-slide='next'>
+				            <span class='glyphicon glyphicon-chevron-right'></span>
+				        </a>
+				    </div>";
 
 				foreach($video as $video)
 				{
