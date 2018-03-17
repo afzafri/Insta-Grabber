@@ -164,8 +164,8 @@ else if(isset($_GET['username']))
 		$userid = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['id'];
 		$biography = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['biography'];
 		$external_url = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['external_url'];
-		$followedby = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['followed_by']['count'];
-		$follows = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['follows']['count'];
+		$followedby = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['edge_followed_by']['count'];
+		$follows = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['edge_follow']['count'];
 		$profilepic = $jsonobj['entry_data']['ProfilePage'][0]['graphql']['user']['profile_pic_url_hd'];
 
 		//store data
