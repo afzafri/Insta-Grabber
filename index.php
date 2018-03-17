@@ -55,7 +55,11 @@ if(isset($_GET['postUrl']))
 		$username = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'];
 		$full_name = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['full_name'];
 		$userid = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['id'];
-		$location = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['location']['name'];
+		$location = array();
+		$location['name'] = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['location']['name'];
+		$location['id'] = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['location']['id'];;
+		$location['slug'] = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['location']['slug'];
+		$location['url'] = "https://www.instagram.com/explore/locations/".$location['id']."/".$location['slug']."/";
 		$likes = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_preview_like']['count'];
 		$comments = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_comment']['count'];
 		$arrusersphoto = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_tagged_user']['edges'];
