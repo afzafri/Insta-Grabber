@@ -5,6 +5,10 @@
   - For fetching Instagram post data, this API only work for public instagram accounts, cannot fetch data from a private account. But to fetch user's profile data, both public and private accounts works.
 
 ## Updates
+- 17/03/2018
+	- Update the fetch user's profile data API since IG have changed the JSON data structure.
+	- Update the fetch photo data API to return locations url and id.
+	- Update the demo page, now will show both videos and photos inside carousel slides.
 - 21/08/2017
 	- Update the API by adding new feature. Now can fetch the user's profile data such as the profile picture and biography.
 - 15/08/2017
@@ -34,6 +38,8 @@ Drop all files into your server
 2. For fetching user's profile data
 	- Usage: http://site.com/index.php?username=USERNAME , where ```USERNAME``` is the Instagram user profile url
 - It will then return a JSON formatted string, you can parse the JSON string and do what you want with it.
+
+3. Demo Web Applications: http://site.com/demo.php
 
 ## Credits
 
