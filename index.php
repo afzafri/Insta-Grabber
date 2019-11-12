@@ -8,7 +8,7 @@
 
     1. For fetching post data
     Usage: http://site.com/index.php?postUrl=URLPOST , where URLPOST is the Instagram post url
-    
+
     2. For fetching user's profile data
 	Usage: http://site.com/index.php?username=USERNAME , where USERNAME is the Instagram user profile url
 */
@@ -17,7 +17,7 @@ header("Access-Control-Allow-Origin: *"); # enable CORS
 
 //get instagram's post(pictures) data
 if(isset($_GET['postUrl']))
-{ 
+{
 	$url = $_GET['postUrl'];
 
 	# use cURL instead of file_get_contents(), this is because on some server, file_get_contents() cannot be used
@@ -26,19 +26,21 @@ if(isset($_GET['postUrl']))
     curl_setopt($ch, CURLOPT_URL, $url); # set url
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); # receive server response
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); # do not verify SSL
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     $data = curl_exec($ch); # execute curl, fetch webpage content
     echo curl_error($ch);
     $httpstatus = curl_getinfo($ch, CURLINFO_HTTP_CODE); # receive http response status
     curl_close($ch);  # close curl
-	
+
 	//strpos to get location for begin and end of JSON data. to use with substr
 	//Need to do this because we only need the JSON data not the whole source code
-	$begin = strpos($data, '<script type="text/javascript">window._sharedData =') + strlen('<script type="text/javascript">window._sharedData ='); 
+	$begin = strpos($data, '<script type="text/javascript">window._sharedData =') + strlen('<script type="text/javascript">window._sharedData =');
 	$end   = strpos($data, ';</script>');
-	
+
 	//substr() function to get only JSON data from whole source code
 	$text = substr($data, $begin, ($end - $begin));
-	
+
 	//decode JSON and store into array var $jsonobj
 	$jsonobj = json_decode($text,true);
 
@@ -46,10 +48,10 @@ if(isset($_GET['postUrl']))
 	//why not just return the scraped json? well as you can see below, the original json is wayyyy to deep
 	$jsondata = array();
 	$jsondata['http_code'] = $httpstatus; # set http response code into the array
-	
+
 	if(isset($jsonobj['entry_data']['PostPage']))
 	{
-		
+
 		//data fetched from array that used to store decoded JSON
 		$caption = (isset($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_caption']['edges'][0]['node']['text'])) ? $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_media_to_caption']['edges'][0]['node']['text'] : null;
 		$username = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['owner']['username'];
@@ -73,13 +75,13 @@ if(isset($_GET['postUrl']))
 			if($arrl['is_video'] == true)
 			{
 				return $arrl['video_url'];
-			}  
+			}
 		}
 
 		//check if the instagram post have multiple photos or not and store into var
 		if(isset($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']))
 		{
-			foreach($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'] as $images) 
+			foreach($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['edge_sidecar_to_children']['edges'] as $images)
 			{
 				$img[] = $images['node']['display_url'];
 
@@ -87,14 +89,14 @@ if(isset($_GET['postUrl']))
 				{
 					$video[] = checkVideo($images['node']);
 				}
-				
+
 			}
-		}  
+		}
 		else
 		{
 			$img[] = $jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']['display_url'];
 			$video[] = checkVideo($jsonobj['entry_data']['PostPage'][0]['graphql']['shortcode_media']);
-		} 
+		}
 
 		//store data
 		$jsondata['data']['user_id'] = $userid;
@@ -107,7 +109,7 @@ if(isset($_GET['postUrl']))
 		$jsondata['data']['comments'] = $comments;
 		$jsondata['data']['location'] = $location;
 		$jsondata['data']['tagged_users'] = array();
-		
+
 		//loop array to get list of users_in_photo
 		for($i=0;$i<count($arrusersphoto);$i++)
 		{
@@ -123,7 +125,7 @@ if(isset($_GET['postUrl']))
     $jsondata['info']['creator'] = "Afif Zafri (afzafri)";
     $jsondata['info']['project_page'] = "https://github.com/afzafri/Insta-Grabber";
     $jsondata['info']['date_updated'] = "17/03/2018";
-	
+
 	// convert the array into JSON strings, and print
 	echo json_encode($jsondata);
 
@@ -132,29 +134,31 @@ if(isset($_GET['postUrl']))
 else if(isset($_GET['username']))
 {
 	$url = "https://www.instagram.com/".$_GET['username']."/";
-	
+
 	# use cURL instead of file_get_contents(), this is because on some server, file_get_contents() cannot be used
     # cURL also have more options and customizable
     $ch = curl_init(); # initialize curl object
     curl_setopt($ch, CURLOPT_URL, $url); # set url
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); # receive server response
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0); # do not verify SSL
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
     $data = curl_exec($ch); # execute curl, fetch webpage content
     echo curl_error($ch);
     $httpstatus = curl_getinfo($ch, CURLINFO_HTTP_CODE); # receive http response status
     curl_close($ch);  # close curl
-	
+
 	//strpos to get location for begin and end of JSON data. to use with substr
 	//Need to do this because we only need the JSON data not the whole source code
-	$begin = strpos($data, '<script type="text/javascript">window._sharedData =') + strlen('<script type="text/javascript">window._sharedData ='); 
+	$begin = strpos($data, '<script type="text/javascript">window._sharedData =') + strlen('<script type="text/javascript">window._sharedData =');
 	$end   = strpos($data, ';</script>');
-	
+
 	//substr() function to get only JSON data from whole source code
 	$text = substr($data, $begin, ($end - $begin));
-	
+
 	//decode JSON and store into array var $jsonobj
 	$jsonobj = json_decode($text,true);
-	
+
 	//initialized new associative array, for storing the data
 	//why not just return the scraped json? well as you can see below, the original json is wayyyy to deep
 	$jsondata = array();
@@ -193,7 +197,7 @@ else if(isset($_GET['username']))
     $jsondata['info']['creator'] = "Afif Zafri (afzafri)";
     $jsondata['info']['project_page'] = "https://github.com/afzafri/Insta-Grabber";
     $jsondata['info']['date_updated'] = "17/03/2018";
-	
+
 	// convert the array into JSON strings, and print
 	echo json_encode($jsondata);
 }
@@ -208,7 +212,7 @@ else
 	    or workaround. <br><br>
 	    1. For fetching post data<br>
     	Usage: http://site.com/index.php?postUrl=URLPOST , where URLPOST is the Instagram post url<br><br>
-    
+
     	2. For fetching user's profile data<br>
 		Usage: http://site.com/index.php?username=USERNAME , where USERNAME is the Instagram user profile url <br>
 	</p>
