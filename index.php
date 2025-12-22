@@ -176,7 +176,7 @@ function fetchProfileDataFromAPI($username) {
     $api_response = curl_exec($ch);
     $httpstatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-return $api_response;
+
     if ($httpstatus == 200 && !empty($api_response)) {
         $data = json_decode($api_response, true);
 
@@ -803,8 +803,7 @@ else if(isset($_GET['username']))
 
 		// Extract detailed profile data from Instagram API endpoint
 		$profile_data = fetchProfileDataFromAPI($username);
-echo $profile_data;
-exit();
+
 		// If API fails, try extracting from data-sjs JSON elements (fallback)
 		if (empty($profile_data['user_id'])) {
 			$profile_data = extractProfileDataSjs($data);
