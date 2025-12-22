@@ -129,6 +129,166 @@ function categorizeResolution($url, $width = null, $height = null) {
     return 'thumbnail';
 }
 
+// Helper function to fetch profile data from Instagram API
+function fetchProfileDataFromAPI($username) {
+    $result = array(
+        'user_id' => null,
+        'username' => null,
+        'full_name' => null,
+        'biography' => null,
+        'external_url' => null,
+        'is_private' => null,
+        'is_business_account' => null,
+        'category_name' => null,
+        'followers' => 0,
+        'following' => 0,
+        'posts' => 0,
+        'profile_pic' => null
+    );
+
+    // Instagram now loads profile data via API endpoint
+    $api_url = "https://www.instagram.com/api/v1/users/web_profile_info/?username=" . urlencode($username);
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $api_url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+    // Add browser headers
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Accept: */*',
+        'Accept-Language: en-US,en;q=0.9',
+        'Accept-Encoding: gzip, deflate, br, zstd',
+        'X-Requested-With: XMLHttpRequest',
+        'X-IG-App-ID: 936619743392459',
+        'sec-ch-ua: "Chromium";v="120", "Google Chrome";v="120", "Not_A Brand";v="99"',
+        'sec-ch-ua-mobile: ?0',
+        'sec-ch-ua-platform: "Windows"',
+        'Sec-Fetch-Dest: empty',
+        'Sec-Fetch-Mode: cors',
+        'Sec-Fetch-Site: same-origin'
+    ));
+    curl_setopt($ch, CURLOPT_ENCODING, '');
+
+    $api_response = curl_exec($ch);
+    $httpstatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+return $api_response;
+    if ($httpstatus == 200 && !empty($api_response)) {
+        $data = json_decode($api_response, true);
+
+        if ($data && isset($data['data']['user'])) {
+            $user = $data['data']['user'];
+
+            if (isset($user['id'])) $result['user_id'] = $user['id'];
+            if (isset($user['username'])) $result['username'] = $user['username'];
+            if (isset($user['full_name'])) $result['full_name'] = $user['full_name'];
+            if (isset($user['biography'])) $result['biography'] = $user['biography'];
+            if (isset($user['external_url'])) $result['external_url'] = $user['external_url'];
+            if (isset($user['is_private'])) $result['is_private'] = $user['is_private'];
+            if (isset($user['is_business_account'])) $result['is_business_account'] = $user['is_business_account'];
+            if (isset($user['category_name'])) $result['category_name'] = $user['category_name'];
+
+            // Extract follower counts
+            if (isset($user['edge_followed_by']['count'])) {
+                $result['followers'] = $user['edge_followed_by']['count'];
+            }
+            if (isset($user['edge_follow']['count'])) {
+                $result['following'] = $user['edge_follow']['count'];
+            }
+            if (isset($user['edge_owner_to_timeline_media']['count'])) {
+                $result['posts'] = $user['edge_owner_to_timeline_media']['count'];
+            }
+
+            // Get high-res profile picture
+            if (isset($user['profile_pic_url_hd'])) {
+                $result['profile_pic'] = $user['profile_pic_url_hd'];
+            } else if (isset($user['profile_pic_url'])) {
+                $result['profile_pic'] = $user['profile_pic_url'];
+            }
+        }
+    }
+
+    return $result;
+}
+
+// Helper function to extract profile data from data-sjs JSON elements (fallback)
+function extractProfileDataSjs($html) {
+    $result = array(
+        'user_id' => null,
+        'username' => null,
+        'full_name' => null,
+        'biography' => null,
+        'external_url' => null,
+        'is_private' => null,
+        'is_business_account' => null,
+        'category_name' => null,
+        'followers' => 0,
+        'following' => 0,
+        'posts' => 0,
+        'profile_pic' => null
+    );
+
+    // Find all script tags with data-sjs
+    preg_match_all('/<script type="application\/json"[^>]*data-sjs[^>]*>(.*?)<\/script>/s', $html, $matches);
+
+    foreach ($matches[1] as $json_str) {
+        // Look for PolarisViewer data which contains profile information
+        if (strpos($json_str, '"PolarisViewer"') !== false || strpos($json_str, 'biography') !== false) {
+            $data = json_decode($json_str, true);
+            if ($data && json_last_error() === JSON_ERROR_NONE) {
+                // Search recursively for profile data
+                findProfileData($data, $result);
+            }
+        }
+    }
+
+    return $result;
+}
+
+// Recursive function to find profile data in nested JSON
+function findProfileData($data, &$result) {
+    if (is_array($data)) {
+        foreach ($data as $key => $value) {
+            // Look for biography field - indicates we're in the profile data section
+            if ($key === 'biography' && is_string($value) && empty($result['biography'])) {
+                // We found the profile data object, extract all fields
+                if (isset($data['id'])) $result['user_id'] = $data['id'];
+                if (isset($data['username'])) $result['username'] = $data['username'];
+                if (isset($data['full_name'])) $result['full_name'] = $data['full_name'];
+                if (isset($data['biography'])) $result['biography'] = $data['biography'];
+                if (isset($data['external_url'])) $result['external_url'] = $data['external_url'];
+                if (isset($data['is_private'])) $result['is_private'] = $data['is_private'];
+                if (isset($data['is_business_account'])) $result['is_business_account'] = $data['is_business_account'];
+                if (isset($data['category_name'])) $result['category_name'] = $data['category_name'];
+
+                // Extract follower counts
+                if (isset($data['edge_followed_by']['count'])) {
+                    $result['followers'] = $data['edge_followed_by']['count'];
+                }
+                if (isset($data['edge_follow']['count'])) {
+                    $result['following'] = $data['edge_follow']['count'];
+                }
+                if (isset($data['edge_owner_to_timeline_media']['count'])) {
+                    $result['posts'] = $data['edge_owner_to_timeline_media']['count'];
+                }
+                if (isset($data['profile_pic_url_hd'])) {
+                    $result['profile_pic'] = $data['profile_pic_url_hd'];
+                } else if (isset($data['profile_pic_url'])) {
+                    $result['profile_pic'] = $data['profile_pic_url'];
+                }
+            }
+            // Recursively search nested arrays/objects
+            else if (is_array($value)) {
+                findProfileData($value, $result);
+            }
+        }
+    }
+}
+
 // Helper function to extract data from data-sjs JSON elements
 function extractDataSjs($html, $postUrl = null, $targetCaption = null) {
     $result = array(
@@ -641,18 +801,39 @@ else if(isset($_GET['username']))
 			}
 		}
 
+		// Extract detailed profile data from Instagram API endpoint
+		$profile_data = fetchProfileDataFromAPI($username);
+echo $profile_data;
+exit();
+		// If API fails, try extracting from data-sjs JSON elements (fallback)
+		if (empty($profile_data['user_id'])) {
+			$profile_data = extractProfileDataSjs($data);
+		}
+
+		// Use API/data-sjs data if available, otherwise fallback to meta tag data
+		$user_id = !empty($profile_data['user_id']) ? $profile_data['user_id'] : $owner_user_id;
+		$username = !empty($profile_data['username']) ? $profile_data['username'] : $username;
+		$full_name = !empty($profile_data['full_name']) ? $profile_data['full_name'] : $full_name;
+		$biography = !empty($profile_data['biography']) ? $profile_data['biography'] : null;
+		$external_url = !empty($profile_data['external_url']) ? $profile_data['external_url'] : null;
+		$followers = $profile_data['followers'] > 0 ? $profile_data['followers'] : $followers;
+		$following = $profile_data['following'] > 0 ? $profile_data['following'] : $following;
+		$posts = $profile_data['posts'] > 0 ? $profile_data['posts'] : $posts;
+		$profile_pic = !empty($profile_data['profile_pic']) ? $profile_data['profile_pic'] : $og_image;
+
 		//store data
-		$jsondata['data']['user_id'] = $owner_user_id;
+		$jsondata['data']['user_id'] = $user_id;
 		$jsondata['data']['username'] = $username;
 		$jsondata['data']['full_name'] = $full_name;
 		$jsondata['data']['biography'] = $biography;
-		$jsondata['data']['external_url'] = null;
+		$jsondata['data']['external_url'] = $external_url;
+		$jsondata['data']['is_private'] = $profile_data['is_private'];
+		$jsondata['data']['is_business_account'] = $profile_data['is_business_account'];
+		$jsondata['data']['category_name'] = $profile_data['category_name'];
 		$jsondata['data']['followedby'] = $followers;
 		$jsondata['data']['follows'] = $following;
 		$jsondata['data']['no_posts'] = $posts;
-		$jsondata['data']['profilepic'] = $og_image; // Profile picture from og:image
-
-		$jsondata['note'] = 'Due to Instagram changes, some data (biography, external URL) cannot be extracted from meta tags alone.';
+		$jsondata['data']['profilepic'] = $profile_pic;
 	}
 	else
 	{
